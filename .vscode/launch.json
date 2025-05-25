@@ -6,6 +6,41 @@
     "configurations": [
         {
             "type": "java",
+            "name": "SistemaAtencionClientes",
+            "request": "launch",
+            "mainClass": "SistemaAtencionClientes",
+            "projectName": "Proyecto-Algoritmos_daff7738"
+        },
+        {
+            "type": "java",
+            "name": "pruebacop",
+            "request": "launch",
+            "mainClass": "newpackage.pruebacop",
+            "projectName": "Proyecto-Algoritmos_daff7738"
+        },
+        {
+            "type": "java",
+            "name": "SistemaAtencionClientes",
+            "request": "launch",
+            "mainClass": "newpackage.SistemaAtencionClientes",
+            "projectName": "Proyecto-Algoritmos_daff7738"
+        },
+        {
+            "type": "java",
+            "name": "TestInsercion",
+            "request": "launch",
+            "mainClass": "TestInsercion",
+            "projectName": "Proyecto-Algoritmos_daff7738"
+        },
+        {
+            "type": "java",
+            "name": "prueba",
+            "request": "launch",
+            "mainClass": "newpackage.prueba",
+            "projectName": "Proyecto-Algoritmos_daff7738"
+        },
+        {
+            "type": "java",
             "name": "prueba",
             "request": "launch",
             "mainClass": "newpackage.prueba",

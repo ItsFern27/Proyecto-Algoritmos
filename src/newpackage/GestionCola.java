@@ -8,4 +8,15 @@ public class GestionCola {
         this.cola = new LinkedList<>();
     }
 
+    public void agregarCliente(Cliente cliente) {
+        cola.add(cliente);
+    }
+
+    public Cliente quitarCliente() {
+        return cola.poll();
+    }
+
+    public boolean estaVacia() {
+        return cola.isEmpty();
+    }
 }
