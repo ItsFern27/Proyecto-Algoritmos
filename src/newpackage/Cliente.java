@@ -24,18 +24,27 @@ public class Cliente {
 
     // Métodos para generar automáticamente los atributos (implementación de ejemplo)
     private String generarId(int dni) {
-        return "C" + dni; // Ejemplo de generación de ID
+        return "C" + dni; 
     }
 
     private String generarNombre(int dni) {
-        return "Cliente_" + dni; // Ejemplo de generación de nombre
+        return "Cliente_" + dni; 
     }
 
     private boolean determinarPreferencial(int dni) {
-        return dni % 2 == 0; // Ejemplo: si el DNI es par, es preferencial
+        return dni % 2 == 0; 
     }
 
     private int generarDni() {
-        return (int) (Math.random() * 10000); // Genera un DNI aleatorio
+        return (int) (Math.random() * 10000); 
+    }
+
+    //métodos públicos:
+    public String getId() {
+        return id;
+    }
+
+    public boolean isPreferencial() {
+        return preferencial;
     }
 }

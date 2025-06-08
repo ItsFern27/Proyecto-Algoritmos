@@ -1,4 +1,3 @@
-
 import java.util.*;
 import newpackage.Cliente;
 import newpackage.GestionCola;
@@ -10,9 +9,11 @@ public class SistemaAtencionClientes {
         List<Cliente> clientesAtendidos = new ArrayList<>();
         List<Cliente> cajas = new ArrayList<>();
         int numCajas = 2;
+
         for (int i = 0; i < numCajas; i++) {
             cajas.add(null);
         }
+
         int opcion;
         do {
             System.out.println("\n--- Menú Banco ---");
@@ -29,11 +30,15 @@ public class SistemaAtencionClientes {
 
             switch (opcion) {
                 case 1:
-                    gestionCola.agregarCliente(null);
+                    Cliente clienteNormal = new Cliente(); // constructor vacío
+                    gestionCola.insertarClienteNormal(clienteNormal);
                     break;
+
                 case 2:
-                    gestionCola.agregarCliente(null);
+                    Cliente clientePref = new Cliente(); // constructor vacío
+                    gestionCola.insertarClientePreferencial(clientePref);
                     break;
+
                 default:
                     if (opcion >= 3 && opcion < 3 + cajas.size()) {
                         int cajaIndex = opcion - 3;
@@ -57,12 +62,14 @@ public class SistemaAtencionClientes {
             // Mostrar estado de cajas
             for (int i = 0; i < cajas.size(); i++) {
                 System.out.print("Caja " + (i + 1) + ": ");
-                if (cajas.get(i) != null) {
-                    System.out.println("(Llamando a " + cajas.get(i).getCodigo() + ")");
+                Cliente atendiendo = cajas.get(i);
+                if (atendiendo != null) {
+                    System.out.println("(Llamando a " + atendiendo.getId() + ")");
                 } else {
                     System.out.println("(Libre)");
                 }
             }
+
         } while (opcion != 0);
         sc.close();
     }
