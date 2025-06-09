@@ -1,6 +1,5 @@
+package newpackage;
 import java.util.*;
-import newpackage.Cliente;
-import newpackage.GestionCola;
 
 public class SistemaAtencionClientes {
     public static void main(String[] args) {

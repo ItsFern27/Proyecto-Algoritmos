@@ -8,6 +8,27 @@
             "type": "java",
             "name": "SistemaAtencionClientes",
             "request": "launch",
+            "mainClass": "newpackage.SistemaAtencionClientes",
+            "projectName": "Proyecto-Algoritmos_e0470d02"
+        },
+        {
+            "type": "java",
+            "name": "prueba",
+            "request": "launch",
+            "mainClass": "newpackage.prueba",
+            "projectName": "Proyecto-Algoritmos_e0470d02"
+        },
+        {
+            "type": "java",
+            "name": "SistemaAtencionClientes",
+            "request": "launch",
+            "mainClass": "SistemaAtencionClientes",
+            "projectName": "Proyecto-Algoritmos_e0470d02"
+        },
+        {
+            "type": "java",
+            "name": "SistemaAtencionClientes",
+            "request": "launch",
             "mainClass": "SistemaAtencionClientes",
             "projectName": "Proyecto-Algoritmos_daff7738"
         },

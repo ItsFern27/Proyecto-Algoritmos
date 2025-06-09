@@ -24,7 +24,7 @@ public class Cliente {
 
     // Métodos para generar automáticamente los atributos (implementación de ejemplo)
     private String generarId(int dni) {
-        return "C" + dni; 
+        return "C" + dni;
     }
 
     private String generarNombre(int dni) {

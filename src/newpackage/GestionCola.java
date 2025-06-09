@@ -10,12 +10,12 @@ public class GestionCola {
     }
 
     
-    public void agregarCliente(Cliente cliente) {
-        cola.add(cliente); 
+    public void insertarCliente(Cliente cliente) { // Deberia insertar un cliente preferencial o normal aleatoriamente
+        //asdasdasd
     }
 
     
-    public void insertarClienteNormal(Cliente cliente) {
+    public void insertarClienteNormal(Cliente cliente) { // Solo deberia insertar clientes normales
         cola.addLast(cliente);
     }
 
