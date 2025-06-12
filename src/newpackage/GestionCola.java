@@ -8,7 +8,6 @@ import java.util.*;
  */
 public class GestionCola {
     private LinkedList<Cliente> cola = new LinkedList<>();
-    private int contadorNormales = 0;
 
     public void insertarCliente(Cliente cliente) {
         if (cliente.isPreferencial()) {
