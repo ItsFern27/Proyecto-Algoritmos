@@ -1,54 +1,77 @@
 package newpackage;
 
-import java.util.LinkedList;
+import java.util.*;
 
+/**
+ * Gestiona la cola de clientes, permitiendo insertar normales y preferenciales
+ * cumpliendo la regla de 1 preferencial por cada 5 normales.
+ */
 public class GestionCola {
-    private LinkedList<Cliente> cola;
+    private List<Cliente> cola = new ArrayList<>();
+    private int contadorNormales = 0;
 
-    public GestionCola() {
-        this.cola = new LinkedList<>();
+    public void insertarCliente(Cliente cliente) {
+        if (cliente.isPreferencial()) {
+            insertarClientePreferencial(cliente);
+        } else {
+            insertarClienteNormal(cliente);
+        }
     }
 
-    
-    public void insertarCliente(Cliente cliente) { // Deberia insertar un cliente preferencial o normal aleatoriamente
-        //asdasdasd
+    public void insertarClienteNormal(Cliente cliente) {
+        cola.add(cliente);
+        contadorNormales++;
     }
 
-    
-    public void insertarClienteNormal(Cliente cliente) { // Solo deberia insertar clientes normales
-        cola.addLast(cliente);
-    }
-
-    // Método para insertar cliente preferencial según la regla: 1 por cada 5 normales
     public void insertarClientePreferencial(Cliente cliente) {
-        int normalesContados = 0;
-        for (int i = 0; i < cola.size(); i++) {
-            if (!cola.get(i).isPreferencial()) {
-                normalesContados++;
-            }
-            if (normalesContados == 5) {
-                cola.add(i + 1, cliente); 
-                return;
+        if (contadorNormales >= 5) {
+            // Busca el 5to cliente normal más reciente para insertar después de él
+            int normalesContados = 0;
+            for (int i = 0; i < cola.size(); i++) {
+                if (!cola.get(i).isPreferencial()) {
+                    normalesContados++;
+                    if (normalesContados == 5) {
+                        cola.add(i + 1, cliente); // Inserta después del 5to normal
+                        contadorNormales = 0;
+                        return;
+                    }
+                }
             }
         }
-        cola.addLast(cliente); 
+
+        // Si aún no hay suficientes normales, se inserta al final
+        cola.add(cliente);
     }
 
-    // Quita y retorna el primer cliente de la cola
     public Cliente quitarCliente() {
-        return cola.poll();
+        return cola.isEmpty() ? null : cola.remove(0);
     }
 
-    // Verifica si la cola está vacía
-    public boolean estaVacia() {
-        return cola.isEmpty();
+    public Cliente verSiguiente() {
+        return cola.isEmpty() ? null : cola.get(0);
     }
 
-    // Método extra útil para mostrar el estado de la cola 
+    /**
+     * Muestra todos los clientes en la cola, marcando quién es el próximo
+     * y si es preferencial.
+     */
     public void mostrarCola() {
-        for (Cliente c : cola) {
-            System.out.print(c.getId() + (c.isPreferencial() ? "(P)" : "") + " / ");
+        if (cola.isEmpty()) {
+            System.out.println("La cola está vacía.");
+        } else {
+            for (int i = 0; i < cola.size(); i++) {
+                Cliente c = cola.get(i);
+                System.out.println((i == 0 ? "  " : "   ") + (i + 1) + ". " + c.toString());
+            }
         }
-        System.out.println();
     }
+
+    public boolean hayClientes() {
+        return !cola.isEmpty();
+    }
+
+    public List<Cliente> getCola() {
+    return cola;
+}
+
 }
