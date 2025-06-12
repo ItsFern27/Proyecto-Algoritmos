@@ -21,6 +21,15 @@ public class Cliente {
         this.id = generarId();
     }
 
+    // Constructor para cliente regular y pref.
+    public Cliente(int años) {
+        this.dni = generarDni();
+        this.edad = años;
+        this.nombre = "Cliente_" + dni;
+        this.preferencial = edad >= 65;
+        this.id = generarId();
+    }
+
     // Genera un número de DNI aleatorio de 8 dígitos
     private int generarDni() {
         return 10000000 + (int)(Math.random() * 90000000);

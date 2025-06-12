@@ -22,6 +22,8 @@ public class SistemaAtencionClientes {
             System.out.println("1. Generar cliente aleatorio");
             System.out.println("2. Llamar al siguiente cliente (Caja disponible y habilitada)");
             System.out.println("3. Mostrar cola y estado de cajas");
+            System.out.println("-1. GENERAR CLIENT REGULAR ///");
+            System.out.println("-2. GENERAR CLIENT PREFERENCIAL ///");
 
             // Alternar habilitación de cajas existentes
             for (int i = 0; i < cajas.size(); i++) {
@@ -90,6 +92,20 @@ public class SistemaAtencionClientes {
                         System.out.println("   " + caja);
                     }
                     break;
+                
+                case -1:
+                    // Generación cliente REGULAR
+                    Cliente nuevoREG = new Cliente(20);
+                    gestionCola.insertarCliente(nuevoREG);
+                    System.out.println("Cliente insertado: " + nuevoREG);
+                    break;
+    
+                case -2:
+                    // Generación cliente PREF
+                    Cliente nuevoPREF = new Cliente(69);
+                    gestionCola.insertarCliente(nuevoPREF);
+                    System.out.println("Cliente insertado: " + nuevoPREF);
+                    break;  
 
                 default:
                     int toggleIndex = opcion - 4;

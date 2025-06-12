@@ -9,6 +9,13 @@
             "name": "SistemaAtencionClientes",
             "request": "launch",
             "mainClass": "newpackage.SistemaAtencionClientes",
+            "projectName": "Proyecto-Algoritmos_6d2854d8"
+        },
+        {
+            "type": "java",
+            "name": "SistemaAtencionClientes",
+            "request": "launch",
+            "mainClass": "newpackage.SistemaAtencionClientes",
             "projectName": "Proyecto-Algoritmos_55f78d29"
         },
         {
