@@ -10,6 +10,8 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             VentanaIngresoCliente ventanaIngreso = new VentanaIngresoCliente(gestionCola);
             ventanaIngreso.setVisible(true);
+            VentanaControlCajas controlCajas = new VentanaControlCajas(gestionCola);
+            controlCajas.setVisible(true);
 
             // Cuando se cierre la ventana de ingreso, mostrar la ventana de la cola
             ventanaIngreso.addWindowListener(new java.awt.event.WindowAdapter() {
