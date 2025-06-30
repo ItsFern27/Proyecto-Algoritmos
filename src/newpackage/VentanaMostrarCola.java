@@ -1,131 +1,113 @@
 package newpackage;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.List;
 
 public class VentanaMostrarCola extends JFrame {
-    private JTable tablaCola;
-    private DefaultTableModel modeloTabla;
+    private GestionCola gestionCola;
+    private JPanel panelLista;
 
-    public VentanaMostrarCola(List<Cliente> cola, List<Caja> cajas) {
+    public VentanaMostrarCola(GestionCola gestionCola) {
+        this.gestionCola = gestionCola;
         setTitle("Ventana de turno de clientes");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(700, 500);
+        setSize(650, 500);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        String[] columnas = { "DNI", "ID", "Estado" };
-        modeloTabla = new DefaultTableModel(columnas, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
+        // Título de la ventana
+        JLabel titulo = new JLabel("Cola Total Actual");
+        titulo.setFont(new Font("Arial", Font.BOLD, 16));
+        titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Panel donde se mostrarán los clientes (dos columnas)
+        panelLista = new JPanel();
+        panelLista.setLayout(new GridLayout(0, 2, 10, 2));
+        panelLista.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(Color.BLACK, 2),
+                "",
+                TitledBorder.DEFAULT_JUSTIFICATION,
+                TitledBorder.DEFAULT_POSITION,
+                new Font("Arial", Font.BOLD, 12)));
+
+        // Scroll para el panel de la lista
+        JScrollPane scroll = new JScrollPane(panelLista);
+        scroll.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        setLayout(new BorderLayout());
+        add(titulo, BorderLayout.NORTH);
+        add(scroll, BorderLayout.CENTER);
+
+        // Llenar la lista al iniciar
+        actualizarCola();
+    }
+
+    // Método para actualizar la visualización de la cola de clientes
+    public void actualizarCola() {
+        panelLista.removeAll(); // Limpiar panel antes de volver a llenarlo
+        List<Cliente> cola = gestionCola.getCola();
+
+        for (Cliente c : cola) {
+            // Columna izquierda: DNI del cliente
+            JLabel lblDni = new JLabel("Cliente: " + String.format("%08d", c.getDni()));
+            lblDni.setFont(new Font("Arial", Font.PLAIN, 15));
+            panelLista.add(lblDni);
+
+            // Columna derecha: Estado del cliente (ID, estado, caja, preferencial)
+            JLabel lblEstado = new JLabel();
+            String texto = c.getId();
+            Color color = Color.RED;
+            Font font = new Font("Arial", Font.BOLD, 15);
+
+            {
+                // Si es preferencial, mostrarlo en verde
+                if (c.isPreferencial()) {
+                    texto = texto + " [Preferencial]";
+                    color = new Color(0, 150, 0);
+                }
+                // Aquí puedes agregar lógica para mostrar "Atendiendo", "Llamando", etc. si
+                // tienes esa info
             }
-        };
-        tablaCola = new JTable(modeloTabla);
-        tablaCola.setRowHeight(28);
 
-        // Renderizado de color para preferenciales y estados
-        tablaCola.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value,
-                    boolean isSelected, boolean hasFocus,
-                    int row, int column) {
-                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                String estado = (String) table.getValueAt(row, 2);
-                if (estado.contains("Atendiendo")) {
-                    c.setForeground(new Color(180, 0, 0));
-                    c.setFont(c.getFont().deriveFont(Font.BOLD));
-                } else if (estado.contains("Llamando")) {
-                    c.setForeground(new Color(180, 80, 80));
-                    c.setFont(c.getFont().deriveFont(Font.BOLD));
-                } else if (estado.contains("Preferencial")) {
-                    c.setForeground(new Color(0, 140, 0));
+            // Si Cliente tiene métodos getEstado() y getCajaAsignada(), mostrar estado y
+            // caja
+            try {
+                java.lang.reflect.Method getEstado = c.getClass().getMethod("getEstado");
+                java.lang.reflect.Method getCaja = c.getClass().getMethod("getCajaAsignada");
+                String estado = (String) getEstado.invoke(c);
+                String caja = (String) getCaja.invoke(c);
+
+                if ("Atendiendo".equalsIgnoreCase(estado) || estado.startsWith("Atendido")) {
+                    texto = c.getId() + " (Atendiendo) -> " + caja;
+                    color = new Color(192, 57, 43); // Rojo fuerte
+                    font = new Font("Arial", Font.BOLD, 15);
+                } else if ("Llamando".equalsIgnoreCase(estado) || estado.startsWith("Llamado")) {
+                    texto = c.getId() + " (Llamando) -> " + caja;
+                    color = new Color(185, 119, 14); // Naranja
+                    font = new Font("Arial", Font.BOLD, 15);
+                } else if (c.isPreferencial()) {
+                    texto = c.getId() + " [Preferencial]";
+                    color = new Color(0, 150, 0); // Verde
+                    font = new Font("Arial", Font.BOLD, 15);
                 } else {
-                    c.setForeground(Color.BLACK);
+                    texto = c.getId();
+                    color = new Color(176, 58, 46); // Rojo oscuro
+                    font = new Font("Arial", Font.BOLD, 15);
                 }
-                return c;
+            } catch (Exception ex) {
+                // Si no existen los métodos, solo mostrar preferencial
             }
-        });
 
-        JScrollPane scrollPane = new JScrollPane(tablaCola);
-        add(scrollPane, BorderLayout.CENTER);
-
-        actualizarCola(cola, cajas);
-    }
-
-    public void actualizarCola(List<Cliente> cola, List<Caja> cajas) {
-        modeloTabla.setRowCount(0);
-
-        // Identificar cajas disponibles y habilitadas
-        java.util.List<Caja> cajasDisponibles = new java.util.ArrayList<>();
-        for (Caja caja : cajas) {
-            if (caja.estaHabilitada() && caja.estaDisponible()) {
-                cajasDisponibles.add(caja);
-            }
+            lblEstado.setText(texto);
+            lblEstado.setFont(font);
+            lblEstado.setForeground(color);
+            panelLista.add(lblEstado);
         }
 
-        int idxLlamando = 0; // Índice para recorrer las cajas disponibles
-
-        for (int i = 0; i < cola.size(); i++) {
-            Cliente cliente = cola.get(i);
-            String estado = "";
-
-            // Buscar si el cliente está siendo atendido por alguna caja
-            for (Caja caja : cajas) {
-                Cliente actual = caja.getClienteActual();
-                if (actual != null && actual.getId().equals(cliente.getId())) {
-                    if (!caja.estaDisponible()) {
-                        estado = "Atendiendo (" + caja.getNombre() + ")";
-                        break;
-                    }
-                }
-            }
-
-            // Si no está siendo atendido, ver si le toca ser llamado por una caja
-            // disponible
-            if (estado.isEmpty() && idxLlamando < cajasDisponibles.size()) {
-                estado = "Llamando (" + cajasDisponibles.get(idxLlamando).getNombre() + ")";
-                idxLlamando++;
-            }
-
-            // Preferencial
-            if (estado.isEmpty() && cliente.isPreferencial()) {
-                estado = "Preferencial";
-            }
-
-            // Normal
-            if (estado.isEmpty()) {
-                estado = "En espera";
-            }
-
-            modeloTabla.addRow(new Object[] {
-                    String.valueOf(cliente.getDni()),
-                    cliente.getId(),
-                    estado
-            });
-        }
+        // Refrescar el panel
+        panelLista.revalidate();
+        panelLista.repaint();
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            // Ejemplo de datos de prueba
-            List<Cliente> cola = java.util.Arrays.asList(
-                    new Cliente(),
-                    new Cliente(),
-                    new Cliente(),
-                    new Cliente(),
-                    new Cliente(),
-                    new Cliente(),
-                    new Cliente(),
-                    new Cliente(),
-                    new Cliente());
-            List<Caja> cajas = java.util.Arrays.asList(
-                    new Caja("Caja 1"),
-                    new Caja("Caja 2"));
-            VentanaMostrarCola ventana = new VentanaMostrarCola(cola, cajas);
-            ventana.setVisible(true);
-        });
-    }
 }
