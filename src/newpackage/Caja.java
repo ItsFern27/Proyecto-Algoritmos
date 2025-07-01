@@ -10,7 +10,7 @@ public class Caja {
     private String nombre;
     private boolean habilitada;
     private boolean disponible;
-    private Cliente clienteActual;
+    private Cliente clienteActual; 
 
     public Caja(String nombre) {
         this.nombre = nombre;
