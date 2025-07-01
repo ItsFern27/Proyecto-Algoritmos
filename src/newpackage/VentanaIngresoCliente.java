@@ -18,6 +18,7 @@ public class VentanaIngresoCliente extends JFrame {
         setSize(400, 250);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Panel principal
         JPanel panel = new JPanel();

@@ -9,7 +9,35 @@
             "name": "VentanaIngresoCliente",
             "request": "launch",
             "mainClass": "newpackage.VentanaIngresoCliente",
-            "projectName": "Proyecto-Algoritmos_55f78d29"
+            "projectName": "Proyecto-Algoritmos-1_eab7da26"
+        },
+        {
+            "type": "java",
+            "name": "VentanaControlCajas",
+            "request": "launch",
+            "mainClass": "newpackage.VentanaControlCajas",
+            "projectName": "Proyecto-Algoritmos-1_eab7da26"
+        },
+        {
+            "type": "java",
+            "name": "VentanasSincronizadas",
+            "request": "launch",
+            "mainClass": "newpackage.VentanasSincronizadas",
+            "projectName": "Proyecto-Algoritmos-1_eab7da26"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "newpackage.Main",
+            "projectName": "Proyecto-Algoritmos-1_eab7da26"
+        },
+        {
+            "type": "java",
+            "name": "SistemaAtencionClientes",
+            "request": "launch",
+            "mainClass": "newpackage.SistemaAtencionClientes",
+            "projectName": "Proyecto-Algoritmos-1_eab7da26"
         },
         {
             "type": "java",
