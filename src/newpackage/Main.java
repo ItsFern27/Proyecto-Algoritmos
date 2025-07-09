@@ -6,22 +6,18 @@ public class Main {
     public static void main(String[] args) {
         GestionCola gestionCola = new GestionCola();
 
-        // Mostrar primero la ventana de ingreso de cliente
         SwingUtilities.invokeLater(() -> {
-            VentanaIngresoCliente ventanaIngreso = new VentanaIngresoCliente(gestionCola);
-            ventanaIngreso.setVisible(true);
-            VentanaControlCajas controlCajas = new VentanaControlCajas(gestionCola);
-            controlCajas.setVisible(true);
+            // Crea primero la ventana de la cola
+            VentanaMostrarCola ventanaCola = new VentanaMostrarCola(gestionCola);
+            ventanaCola.setVisible(true);
 
-            // Cuando se cierre la ventana de ingreso, mostrar la ventana de la cola
-            ventanaIngreso.addWindowListener(new java.awt.event.WindowAdapter() {
-                @Override
-                public void windowClosing(java.awt.event.WindowEvent e) {
-                    ventanaIngreso.dispose();
-                    VentanaMostrarCola ventanaCola = new VentanaMostrarCola(gestionCola);
-                    ventanaCola.setVisible(true);
-                }
-            });
+            // Ahora crea la ventana de ingreso y pásale gestionCola
+            VentanaIngresoCliente ventanaIngreso = new VentanaIngresoCliente(gestionCola, ventanaCola);
+            ventanaIngreso.setVisible(true);
+
+            // Crea la ventana de control de cajas y pásale gestionCola y ventanaCola
+            VentanaControlCajas controlCajas = new VentanaControlCajas(gestionCola, ventanaCola);
+            controlCajas.setVisible(true);
         });
     }
 }
