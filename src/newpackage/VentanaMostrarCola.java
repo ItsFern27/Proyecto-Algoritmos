@@ -14,7 +14,6 @@ public class VentanaMostrarCola extends JFrame {
         setTitle("Ventana de turno de clientes");
         setSize(650, 500);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Título de la ventana
         JLabel titulo = new JLabel("Cola Total Actual");

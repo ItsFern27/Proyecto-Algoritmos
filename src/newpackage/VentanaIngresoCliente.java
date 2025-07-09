@@ -9,9 +9,11 @@ public class VentanaIngresoCliente extends JFrame {
     private JLabel lblTicket;
     private JLabel lblTipo;
     private GestionCola gestionCola;
+    private VentanaMostrarCola ventanaCola;// Para mostrarcola
 
-    public VentanaIngresoCliente(GestionCola gestionCola) {
+    public VentanaIngresoCliente(GestionCola gestionCola, VentanaMostrarCola ventanaCola) {
         this.gestionCola = gestionCola;
+        this.ventanaCola = ventanaCola;// Para mostrarcola
 
         setTitle("Ventana de obtención de ticket");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,13 +67,14 @@ public class VentanaIngresoCliente extends JFrame {
 
         // Validar que tenga exactamente 8 dígitos y solo números
         if (!dniTexto.matches("\\d{8}")) {
-            JOptionPane.showMessageDialog(this, "El DNI debe tener exactamente 8 dígitos numéricos.", "DNI inválido", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El DNI debe tener exactamente 8 dígitos numéricos.", "DNI inválido",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         // Si pasó la validación, convertimos y seguimos
         int dni = Integer.parseInt(dniTexto);
-        int edad = 18 + (int)(Math.random() * 70); // Edad aleatoria
+        int edad = 18 + (int) (Math.random() * 70); // Edad aleatoria
 
         Cliente nuevoCliente = new Cliente(edad);
         nuevoCliente.setDni(dni);
@@ -79,18 +82,24 @@ public class VentanaIngresoCliente extends JFrame {
         gestionCola.insertarCliente(nuevoCliente);
 
         // ⬇️ AÑADIDO: imprimir el contenido de la cola
-    System.out.println("Cola actual:");
-    gestionCola.mostrarCola();
+        System.out.println("Cola actual:");
+        gestionCola.mostrarCola();
 
         // Mostrar resultados
         lblTicket.setText("Número de ticket: " + nuevoCliente.getId());
         lblTipo.setText("Tipo de cliente: " + (nuevoCliente.isPreferencial() ? "Preferencial" : "Normal"));
 
         campoDni.setText("");
+
+        // Refrescar la ventana de la cola   CAMBIO MOSTRARCOLA
+        if (ventanaCola != null) {
+            ventanaCola.actualizarCola(); // <-- AGREGA ESTA LÍNEA AQUÍ
+        }
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         GestionCola gestionCola = new GestionCola();
         SwingUtilities.invokeLater(() -> new VentanaIngresoCliente(gestionCola).setVisible(true));
     }
+    */
 }

@@ -11,15 +11,16 @@ public class VentanaControlCajas extends JFrame {
     private GestionCola gestionCola;
     private List<Caja> cajas;
     private JLabel[] estadoCajas;
+    private VentanaMostrarCola ventanaCola;// Para mostrarcola
 
-    public VentanaControlCajas(GestionCola gestionCola) {
+    public VentanaControlCajas(GestionCola gestionCola, VentanaMostrarCola ventanaCola) {
         this.gestionCola = gestionCola;
         this.cajas = new ArrayList<>();
+        this.ventanaCola = ventanaCola;// Para mostrarcola
         cajas.add(new Caja("Caja 1"));
         cajas.add(new Caja("Caja 2"));
 
         setTitle("Control de Cajas");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 300);
         setLocationRelativeTo(null);
         setLayout(new GridLayout(1, 2));
@@ -69,6 +70,7 @@ public class VentanaControlCajas extends JFrame {
             if (siguiente != null) {
                 gestionCola.quitarCliente();
                 caja.llamarCliente(siguiente);
+                ventanaCola.actualizarCola();
             } else {
                 JOptionPane.showMessageDialog(this, "No hay clientes en cola.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -95,11 +97,12 @@ public class VentanaControlCajas extends JFrame {
         estadoCajas[index].setText(cajas.get(index).toString());
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         GestionCola gestionCola = new GestionCola();
         SwingUtilities.invokeLater(() -> {
             VentanaControlCajas ventana = new VentanaControlCajas(gestionCola);
             ventana.setVisible(true);
         });
     }
+    */
 }
