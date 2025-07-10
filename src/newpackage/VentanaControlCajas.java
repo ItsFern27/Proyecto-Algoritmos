@@ -7,16 +7,21 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class VentanaControlCajas extends JFrame {
     private GestionCola gestionCola;
     private List<Caja> cajas;
     private JLabel[] estadoCajas;
     private VentanaMostrarCola ventanaCola;// Para mostrarcola
+    private VentanaClientesVisual ventanaClientesVisual;
 
-    public VentanaControlCajas(GestionCola gestionCola, VentanaMostrarCola ventanaCola) {
+
+    public VentanaControlCajas(GestionCola gestionCola, VentanaMostrarCola ventanaCola, VentanaClientesVisual ventanaClientesVisual) {
         this.gestionCola = gestionCola;
         this.cajas = new ArrayList<>();
         this.ventanaCola = ventanaCola;// Para mostrarcola
+        this.ventanaClientesVisual = ventanaClientesVisual;
+        
         cajas.add(new Caja("Caja 1"));
         cajas.add(new Caja("Caja 2"));
 
@@ -68,9 +73,31 @@ public class VentanaControlCajas extends JFrame {
             }
             Cliente siguiente = gestionCola.verSiguiente();
             if (siguiente != null) {
-                gestionCola.quitarCliente();
-                caja.llamarCliente(siguiente);
+                boolean respondio = caja.llamarCliente(siguiente);
+
+                if (respondio) {
+                    // Cliente respondió → lo quitamos de la cola y marcamos en atención
+                    gestionCola.quitarCliente();
+                    ventanaClientesVisual.marcarEnAtencion(siguiente);
+                } else {
+                    // Cliente no respondió → lo quitamos de la cola y de la vista
+                    gestionCola.quitarCliente();
+                    ventanaClientesVisual.eliminarCliente(siguiente);
+                }
+                
+                
                 ventanaCola.actualizarCola();
+                
+                ventanaClientesVisual.marcarLlamando(siguiente);  // Muestra "llamando..."
+
+                if (caja.getClienteActual() != null) {
+                    // Cliente respondió y está en atención
+                    ventanaClientesVisual.marcarEnAtencion(siguiente);
+                } else {
+                    // Cliente no respondió → quitarlo de la visual
+                    ventanaClientesVisual.eliminarCliente(siguiente);
+                }
+
             } else {
                 JOptionPane.showMessageDialog(this, "No hay clientes en cola.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -78,7 +105,12 @@ public class VentanaControlCajas extends JFrame {
         });
 
         btnFinalizar.addActionListener(e -> {
+            Cliente atendido = caja.getClienteActual(); // CAPTURAMOS ANTES DE finalizarAtencion()
             caja.finalizarAtencion();
+            if (atendido != null) {
+                ventanaCola.actualizarCola(); // si lo estás usando
+                ventanaClientesVisual.eliminarCliente(atendido); // 🔥 borra visualmente
+            }
             actualizarEstado(index);
         });
 

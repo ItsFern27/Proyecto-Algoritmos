@@ -10,10 +10,12 @@ public class VentanaIngresoCliente extends JFrame {
     private JLabel lblTipo;
     private GestionCola gestionCola;
     private VentanaMostrarCola ventanaCola;// Para mostrarcola
+    private VentanaClientesVisual ventanaClientesVisual;
 
-    public VentanaIngresoCliente(GestionCola gestionCola, VentanaMostrarCola ventanaCola) {
+    public VentanaIngresoCliente(GestionCola gestionCola, VentanaMostrarCola ventanaCola, VentanaClientesVisual ventanaClientesVisual) {
         this.gestionCola = gestionCola;
         this.ventanaCola = ventanaCola;// Para mostrarcola
+        this.ventanaClientesVisual = ventanaClientesVisual;
 
         setTitle("Ventana de obtención de ticket");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -94,6 +96,9 @@ public class VentanaIngresoCliente extends JFrame {
         // Refrescar la ventana de la cola   CAMBIO MOSTRARCOLA
         if (ventanaCola != null) {
             ventanaCola.actualizarCola(); // <-- AGREGA ESTA LÍNEA AQUÍ
+        }
+        if (ventanaClientesVisual != null) {
+            ventanaClientesVisual.actualizarVista();  // <-- ¡ACTUALIZA VISUALMENTE!
         }
     }
 

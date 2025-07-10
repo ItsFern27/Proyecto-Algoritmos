@@ -23,14 +23,16 @@ public class Caja {
      * Llama a un cliente y lo asigna si responde.
      * No termina la atención automáticamente.
      */
-    public void llamarCliente(Cliente cliente) {
+    public boolean llamarCliente(Cliente cliente) {
         System.out.println( nombre + " llama al cliente: " + cliente);
         if (clienteResponde()) {
             System.out.println("Cliente " + cliente.getId() + " respondió. Atención iniciada.");
             disponible = false;
             clienteActual = cliente;
+            return true; // Cliente respondió
         } else {
             System.out.println(" Cliente " + cliente.getId() + " no respondió. Eliminado de la cola.");
+            return false; // Cliente no respondió
         }
     }
 
