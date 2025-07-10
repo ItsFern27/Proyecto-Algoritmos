@@ -11,7 +11,7 @@ public class Main {
             VentanaMostrarCola ventanaCola = new VentanaMostrarCola(gestionCola);
             ventanaCola.setVisible(true);
             
-            
+            // Crea la interfaz visual para los clietes
             VentanaClientesVisual ventanaClientesVisual = new VentanaClientesVisual(gestionCola);
             ventanaClientesVisual.setVisible(true);
 
